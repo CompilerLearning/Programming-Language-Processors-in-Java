@@ -464,6 +464,7 @@ private fun parseCommand() {            // Command ::=
 ### 4.4.1 Representation
 * Example 1.5 의 Mini-Triangle AST 예시를 보여준다.
 * Mini-Triangle abstract syntax
+
 ![](img/i4_4_1.png)  
 ![](img/i4_4_2.png)  
 
@@ -476,27 +477,27 @@ private fun parseCommand() {            // Command ::=
 
 * Node-tag 의 의미
   * 각각의 AST 노드는 subtree 노드를 결정하는 태그를 가진다. 
-  * ex) IfCommand 의 root 는 Command AST 이고,3개의 subTree 를 가지고 있다. expreesion AST 1개, Command AST 2개
-
-* Expression AST  (E)  
-![](img/i4_4_6.png) 
-![](img/i4_4_7.png) 
+  * ex) IfCommand 의 root 는 Command AST 이고,3개의 subTree 를 가지고 있다. 
+  expreesion AST 1개, Command AST 2개
+  
+* Expression AST(E)
+  * ![](img/i4_4_6.png)
 
 * V-name AST
-![](img/i4_4_8.png) 
-![](img/i4_4_9.png) 
+  * ![](img/i4_4_8.png) 
+  * ![](img/i4_4_9.png) 
 
-* Declaration AST 
-![](img/i4_4_10.png) 
-![](img/i4_4_11.png) 
+* Declaration AST
+  * ![](img/i4_4_10.png) 
+  * ![](img/i4_4_11.png) 
 
-*  Node-tag
-    * ConstDelcation 의 Root-tag 는 Declaration AST
-    * Identifier AST, Expression AST 로 구성되어짐
+* Node-tag
+  * ConstDelcation 의 Root-tag 는 Declaration AST
+  * Identifier AST, Expression AST 로 구성되어짐
 
-*  Type-denoter AST
-![](img/i4_4_12.png) 
-![](img/i4_4_13.png) 
+* Type-denoter AST
+  * ![](img/i4_4_12.png) 
+  * ![](img/i4_4_13.png) 
 
 *  Node-tag
     * ‘Identifier’ 태그가 있는 노드는 Identifier 의 root
@@ -652,8 +653,8 @@ private Declaration parseSingleDeclaration ( ) {
 return declAST
 }
 ```
-*  AST 가 로컬 변수인 declAST 를 사용함으로써 향상되었다고 볼 수 있다.
-*  해당 메소드는 AST 의 결과 값을 반환한다.
+* AST 가 로컬 변수인 declAST 를 사용함으로써 향상되었다고 볼 수 있다.
+* 해당 메소드는 AST 의 결과 값을 반환한다.
 * 지역 변수인 iAST,eAST, tAST 는 단일 선언된 AST 를 포함하기 위해 사용된다.
 
 * 향상된 parseCommand 
@@ -685,16 +686,16 @@ return clAST;
 
 * Seperactor
     * 예시
-        * 공백, 주석
-    *  역할
-        * token 을 분리한다.
-        * 프로그램을 읽을때 보조한다.
+     * 공백, 주석
+    * 역할
+     * token 을 분리한다.
+     * 프로그램을 읽을때 보조한다.
 * parser 와 같은 방법으로 scanner 를 개발할 수 있다.
 * lexical grammer
     * terminal symbols
     * nontermianl symbols
-        * token
-        * sperator
+     * token
+     * sperator
     * individual character
 
 ### 4.2.1 Scanner for Mini-triangle
