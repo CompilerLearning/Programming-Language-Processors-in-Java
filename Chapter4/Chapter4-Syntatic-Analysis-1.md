@@ -452,3 +452,255 @@ private fun parseCommand() {            // Command ::=
 * X*는 X* 토큰 셋과 겹치면 안됨
 위의 조건을 만족하는 문법을 LL grammar라고 부른다.
 
+## 4.4 Abstract syntax trees
+
+* rescursive-decent-parser 는 sorce progradm 의 시작과 끝을 찾는다는 의미에서 프로그램의 구조를 결정한다.
+* one-pass compiler
+    * syntactic analyze 은 contextual analyzer 과 code-generator 를 호출할 때를 알 수 있다.
+* mutli-pass compiler
+    * syntactic analyze 은 소스 프로그램의 구문 구조를 명시적으로 나타내야한다.
+    * 이것을 여기에서는 AST 라고 표현한다.
+
+### 4.4.1 Representation
+* Example 1.5 의 Mini-Triangle AST 예시를 보여준다.
+* Mini-Triangle abstract syntax
+![](img/i4_4_1.png)  
+![](img/i4_4_2.png)  
+
+* Command ASTs(C)
+![](img/i4_4_3.png) 
+
+* AssignCommand 
+![](img/i4_4_4.png) 
+![](img/i4_4_5.png) 
+
+* Node-tag 의 의미
+  * 각각의 AST 노드는 subtree 노드를 결정하는 태그를 가진다. 
+  * ex) IfCommand 의 root 는 Command AST 이고,3개의 subTree 를 가지고 있다. expreesion AST 1개, Command AST 2개
+
+* Expression AST  (E)  
+![](img/i4_4_6.png) 
+![](img/i4_4_7.png) 
+
+* V-name AST
+![](img/i4_4_8.png) 
+![](img/i4_4_9.png) 
+
+* Declaration AST 
+![](img/i4_4_10.png) 
+![](img/i4_4_11.png) 
+
+*  Node-tag
+    * ConstDelcation 의 Root-tag 는 Declaration AST
+    * Identifier AST, Expression AST 로 구성되어짐
+
+*  Type-denoter AST
+![](img/i4_4_12.png) 
+![](img/i4_4_13.png) 
+
+*  Node-tag
+    * ‘Identifier’ 태그가 있는 노드는 Identifier 의 root
+    * terminal node 이고,  내용은 spelling 뿐이다. 
+
+
+### Java class 예시 
+* Mini-Traiangle AST 구조를 가지고 있는 Java 클래스를 정의 한다. 
+* 모든 abstract syntax tree 에 AST 추상 클래스를 호출한다.
+
+
+```
+public abstract class AST {}
+```
+* AST 의 모든 노드는, AST 하위 클래스의 객체이다.
+
+
+```
+public class Program extends AST {
+	public Command C; 
+    / / body of program
+}
+```
+
+* Program 은 single form 을 가지며, 명령어 인스턴스 변수인 C 로 구성되어 있다. 
+
+* Command ASTs: 
+Command class 에 세부적인 subclass 를 정의 
+```
+public abstract class Command extends AST { ... )
+
+public class AssignCommand extends Command { 
+	public Vname V; / / left-side variable 
+	public Expression E; / / right-side expression
+} 
+
+public class CallCommand extends Command { 
+	public Identifier I; / / procedure name 
+	public Expression E; / / actual parameter
+}
+
+public class Sequentialcommand extends Command {
+	public Command C1, C2; / / subcommands
+}
+
+public class IfCommand extends Command { 
+	public Expression E; / / if condition
+	public Command C1, C2; / / true and false commands
+	...
+}
+
+public class WhileCommand extends Command { 
+	public Expression E; / / loop condition
+	public Command C / / body of loop
+	...
+}
+
+public class LetCommand extends Command { 
+	public Declation D; / / block declarations
+	public Command C / / body of block 
+	...
+}
+```
+
+* Expression ASTs
+
+```
+public abstract class Expression extends AST { ... )
+
+public class UnaryExpression extends Expression { 
+	public Operator O; / / unary operator symbol
+	public Expression E; / / operand 
+} 
+
+public class BinaryExpression extends Expression { 
+	public Operator O; / / binary operator symbol
+	public Expression E1, E2; / / left and right operands  
+}
+
+```
+* V-name ASTs:
+*  Declations ASTs
+* Type-denoters AST
+* Teirminal nodes
+    * Token(identifier, interger-literal, or operator) 과 일치한다.
+    * token 과 유사하다.
+    * token 의 spelling 을 가지고 있다.
+
+```
+public abstract class Terminal extends AST { 
+	public String spelling; // token spelling from scanner 
+}
+
+public class Identifier extends Terminal { ... } 
+public class IntergerLiteral extends Terminal { ... } 
+public class Operator extends Terminal { ... } 
+```
+
+* 각각의 세부 클래스에서 적절한 생성자를 구성해야 한다. 
+
+```
+public class AssignCommand (Vname v, Expresion E) { 
+	this.V = V;
+	this.E = E;
+}
+
+public Identifier (String spelling) {
+	this.spelling = spelling
+}
+```
+* syntatic constructor (구문 생성자) 를 AST 로 만들기 위해, 세부 클래스에 생성자에 클래스가 있는 파서를 정해야 한다. 
+
+### 4.4.2 Constrouction
+
+* Mini-Traiangle parser 개선
+
+```
+private Program parseprogram ( ) ;
+private Command parseCommand ( ) ;
+private Expression parseExpression ( ) ;
+private Declaration parseDeclaration ( ) ;
+private TypeDenoter parseTypeDenoter ( ) ;
+private Identifier parseIntegerLiteral ( ) ;
+private Operator parseOperator ( ) ;
+```
+
+* parseSingleDeclaration
+
+```
+private Declaration parseSingleDeclaration ( ) { 
+	Declaration declAST;
+	switch (currentToken.kind) {
+	case Token.CONST: { 
+		acceptIt( ) ;
+		Identifier iAST = parseIdentifier0 ;
+		a c c e p t ( T o k e n .I S ) ;
+		Expression eAST = parseExpression( ) ; 
+		declAST = new ConstDeclaration(iAST,eAST);
+		1
+		break ;
+
+	case Token.VAR: { acceptIt( ) ;
+		Identifier iAST = parseIdentifier( ) ; 
+		accept(Token.COL0N);
+		TypeDenoter tAST = parseTypeDenoter( ) ; 
+		declAST = new VarDeclaration(iAST,tAST);
+		1
+		break ; 
+
+	default :
+		report a syntactic error
+	}
+return declAST
+}
+```
+*  AST 가 로컬 변수인 declAST 를 사용함으로써 향상되었다고 볼 수 있다.
+*  해당 메소드는 AST 의 결과 값을 반환한다.
+* 지역 변수인 iAST,eAST, tAST 는 단일 선언된 AST 를 포함하기 위해 사용된다.
+
+* 향상된 parseCommand 
+```
+private Command parsecommand ( ) {
+	Command clAST = parseSingleCommand();
+	while (currentToken.kind== Token.SEMICOLON) {
+		acceptIt( ) ;
+		Command c2AST = parseSingleComrnand();
+		clAST = new SequentialCommand(clAST, c2AST);
+	}
+return clAST;
+}
+```
+
+* AST 를 올바른 구조로 구성하는데 주의해야 한다. 
+* clAST는 AST 를 값을 쌓기 위해 사용 된다. 
+
+## 4.5 Scanning
+* 목적
+  * source program 에서 token 을 인지하기 위함이다. 
+
+* parsing 과 유사하지만, 조금더 자세하다.
+
+* parsing 과 차이점 
+  * parsing 은 terminal symbols 은 token 이고, expression command 나 좀더 큰 범위에서 그룹화
+  * scan 은 terminal symbols 은 토큰으로 그룹화 되어 있는 chararcter 이다.
+
+
+* Seperactor
+    * 예시
+        * 공백, 주석
+    *  역할
+        * token 을 분리한다.
+        * 프로그램을 읽을때 보조한다.
+* parser 와 같은 방법으로 scanner 를 개발할 수 있다.
+* lexical grammer
+    * terminal symbols
+    * nontermianl symbols
+        * token
+        * sperator
+    * individual character
+
+### 4.2.1 Scanner for Mini-triangle
+![](img/i4_4_14.png) 
+
+* Mini-triangle 에 token sperator 규칙을 추가한다.
+  1. space 
+  2. eol : end-of-line ‘character’
+  3. eot : end-of-text ‘character’
