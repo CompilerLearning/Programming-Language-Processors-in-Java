@@ -1,3 +1,11 @@
+---
+layout: default
+title: 3. Compilation
+nav_order: 4
+permalink: /compilation
+has_toc: true
+---
+
 # 3. Compilation
 
 ## 이 장에서 배우는 것
@@ -32,7 +40,7 @@
 
 일반적인 컴파일러의 흐름은 다음과 같다.
 
-<img src="img/i1.png" width="400">
+![](img/i1.png)
 
 1. 구문 분석이 정상적으로 완료되면 **AST 를 생성**한다. 실패하는 경우 에러 리포트를 생성한다.
 2. 문맥 분석이 정상적으로 완료되면 **decorated AST 를 생성**한다. 실패하는 경우 에러 리포트를 생성한다.
@@ -47,7 +55,7 @@
 
 - 소스 프로그램
 
-```basic
+```pascal
 ! This program is useless
 ! except for illustration.
 let
@@ -62,7 +70,7 @@ in
 
 - 구문 분석의 결과로 생성된 AST
 
-<img src="img/i2.png" width="600">
+![](img/i2.png)
 
 1. 이 프로그램은 `let-command` 이다. `declaration` 과 `subcommand` 로 구성된다.
 2. `variable declaration` 이다. `identifier` 와 `type-denoter` 로 구성된다.
@@ -100,7 +108,7 @@ in
 
 ### Example 3.2 Triangle contextual analysis
 
-<img src="img/i3.png" width="600">
+![](img/i3.png)
 
 (2) 선언에 `int` 타입을 표시한다.
 
@@ -122,7 +130,7 @@ in
 
 - 소스 프로그램
 
-```basic
+```pascal
 let
   var n: Integer
 in
@@ -133,7 +141,7 @@ in
 
 - 소스 프로그램의 문맥 분석 중 감지된 위반 사항을 표현한 **decorated AST**
 
-<img src="img/i4.png" width="600">
+![](img/i4.png)
 
 1. `whileCommand` 표현식이 bool 타입이 아니다. (type rule)
 2. m 이 선언되지 않았다. (scope rule)
@@ -159,7 +167,7 @@ in
 
 - 소스 프로그램
 
-```basic
+```pascal
 ! This program is useless
 ! except for illustration.
 let
@@ -174,7 +182,7 @@ in
 
 - 목적 프로그램
 
-<img src="img/i5.png" width="600">
+![](img/i5.png)
 
 line 2. ‘&’ 을 메모리에 로드.  
 line 3. 1 [SB] 주소에 저장 - `c := ‘&’`  
@@ -183,7 +191,7 @@ line 5. 1 을 메모리에 로드.
 line 6. add 명령어를 수행.  
 line 7. 0 [SB] 주소에 저장 - `n := n + 1`
 
-<img src="img/i3.png" width="600">
+![](img/i3.png)
 
 (2) 변수 n 에 0 [SB] 주소를 할당한다. 이후에 찾을 수 있도록 해당 주소를 노드 (2) 에 저장한다.
 
@@ -216,7 +224,7 @@ line 7. 0 [SB] 주소에 저장 - `n := n + 1`
 최상위 모듈 **Compiler Driver** 과 하위 레벨의 세 가지 모듈로 구성된다.  
 이전에 살펴본 방식과 동일하다.
 
-<img src="img/i6.png" width="600">
+![](img/i6.png)
 
 ### 3.2.2 One-pass compilation
 
@@ -226,11 +234,11 @@ line 7. 0 [SB] 주소에 저장 - `n := n + 1`
 그 후 다시 파싱이 재개된다.  
 **즉, 코드를 한번만 읽고 번역한다.**
 
-<img src="img/i7.png" width="600">
+![](img/i7.png)
 
 #### Example 3.5 One-pass compilation
 
-```basic
+```pascal
 ! This program is useless
 ! except for illustration.
 let
@@ -305,7 +313,7 @@ class Example {
 
 2.7 케이스 스터디 섹션에서 설명했듯이, Triangle 언어 프로세서는 컴파일러, 인터프리터, 디어셈블러로 구성된다. 여기서는 Triangle 컴파일러에 대해 더 자세히 알아본다.
 
-<img src="img/i8.png" width="600">
+![](img/i8.png)
 
 Multi-pass 설계로 된 **Compiler driver**
 
@@ -334,7 +342,7 @@ public class Compiler {
 
 컴파일러 구조 다이어그램
 
-<img src="img/i9.png" width="600">
+![](img/i9.png)
 
 - 패키지 구조 간략 설명
 

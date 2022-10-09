@@ -1,3 +1,10 @@
+---
+layout: default
+title: Home
+nav_order: 1
+permalink: /
+---
+
 # Programming Language Processors in Java
 
 ![](/data/book-cover.jpeg)

@@ -1,3 +1,11 @@
+---
+layout: default
+title: 5. Contextual analytics
+nav_order: 6
+permalink: /contextual-analytics
+has_toc: true
+---
+
 # 5. Contextual analytics
 
 컴파일시, 소스 언어의 문맥적 제약 조건과 일치하는지 검증하기 위해 **문맥 분석**을 수행한다.
@@ -89,7 +97,7 @@ bottom-up 방식의 매우 단순한 식별 알고리즘으로 AST 를 탐색하
 
 **Example 5.1 Monolithic block structure**
 
-```basic
+```pascal
 program
 	D    ! sequence of declarations
 begin
@@ -286,21 +294,21 @@ public void closeScope() {
 _I_ 가 표현식의 피연산자로 나타나는 경우, 타입 검사기는 _I_ 가 상수 또는 변수로 선언되었는지 확인하고, 타입을 알아야 한다.
 
 ```java
-a = *I* + b
+a = I + b
 ```
 
 _I_ 가 할당 명령의 좌측으로 나타나는 경우, 타입 검사기는 _I_ 가 상수가 아닌 변수로 선언되었는지 확인하고, 타입을 알아야 한다.
 
 ```java
-*I* = /* expression */
+I = /* expression */
 ```
 
 만약 _I_ 가 프로시저 호출에서 첫 번째 심볼로 나타나는 경우, 타입 검사기는 _I_ 가 프로시저로 선언되었는지 확인해야 하며, 실제 파라미터의 타입과 비교하기 위해 형식 파라미터의 타입을 알아야 한다.
 
 ```java
-public void *I*(*String* id) // id : 형식 파라미터
+public void I(*String* id) // id : 형식 파라미터
 
-*I*("1234") // "1234" : 실제 파라미터
+I("1234") // "1234" : 실제 파라미터
 ```
 
 위 예시들은 속성에 포함되어야 하는 정보의 종류를 보여준다.
@@ -436,7 +444,7 @@ C 언어 같은 일부 프로그래밍 언어는 소스 프로그램의 전역 �
 
 Mini-triangle 의 표준 환경
 
-```basic
+```pascal
 type Boolean ~ ...;
 const false ~ ...;
 const true ~ ...;
@@ -585,7 +593,7 @@ public class Operator extends Terminal {
 
 Assignment command
 
-```basic
+```pascal
 V := E
 ```
 
@@ -595,7 +603,7 @@ V := E
 
 block command
 
-```basic
+```pascal
 let
 	D
 in

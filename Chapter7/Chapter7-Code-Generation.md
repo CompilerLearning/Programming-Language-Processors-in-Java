@@ -1,3 +1,11 @@
+---
+layout: default
+title: 7. Code Generation
+nav_order: 8
+permalink: /code-generation
+has_toc: true
+---
+
 # Code Generation
 
 | 단계              | 목적                                  | 의존                            |
